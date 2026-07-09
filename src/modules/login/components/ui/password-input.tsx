@@ -43,7 +43,7 @@ export function PasswordInput({ label, children, error, ...props }: Props) {
         </InputGroupAddon>
       </InputGroup>
 
-      <FieldError className="text-destructive-active">{error}</FieldError>
+      <FieldError className="text-destructive">{error}</FieldError>
     </Field>
   )
 }

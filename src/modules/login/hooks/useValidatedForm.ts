@@ -23,6 +23,8 @@ export function useValidatedForm<T extends FieldValues>({
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<T>({
     resolver: standardSchemaResolver(formSchema),
     defaultValues,
@@ -41,5 +43,7 @@ export function useValidatedForm<T extends FieldValues>({
     handleSubmit: handleSubmit(handleFormSubmit),
     errors,
     reset,
+    setValue,
+    watch,
   }
 }

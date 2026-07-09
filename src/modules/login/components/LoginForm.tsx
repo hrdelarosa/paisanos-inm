@@ -39,7 +39,7 @@ export default function LoginForm() {
                 autoFocus
                 aria-invalid={!!errors.username}
               />
-              <FieldError className="text-destructive-active">
+              <FieldError className="text-destructive">
                 {errors.username?.message}
               </FieldError>
             </Field>

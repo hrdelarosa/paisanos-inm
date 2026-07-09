@@ -1,19 +1,24 @@
 import Image from 'next/image'
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function LoginLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-md flex flex-col gap-5">
         <div className="flex flex-col items-center gap-2 self-center font-bold font-exo2 text-xl">
           <Image
             src="/paisanos.webp"
-            alt="PaisanosInm Logo"
+            alt="Logo del Programa Heroínas y Héroes Paisanos"
             className="rounded-4xl"
             width={180}
             height={180}
+            loading="eager"
           />
 
-          <div className="flex flex-col items-center gap-0.5">
+          <div className="flex flex-col items-center gap-0.5 text-center">
             <span className="text-2xl font-medium">
               Sistema de Registro de Atenciones
             </span>

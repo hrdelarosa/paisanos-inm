@@ -7,7 +7,7 @@ import {
 } from '@/src/components/ui/card'
 import LoginForm from '@/src/modules/login/components/LoginForm'
 
-export default function Page() {
+export default function Login() {
   return (
     <Card>
       <CardHeader className="text-center">
