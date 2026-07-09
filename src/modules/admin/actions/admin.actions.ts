@@ -37,7 +37,7 @@ export async function createUserAction({
         email: `${input.username}@paisanos-inm.local`,
         password: input.password,
         name: input.name,
-        role: input.role,
+        role: input.role as 'admin' | 'user',
         data: {
           username: input.username,
           displayUsername: input.username,

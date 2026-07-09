@@ -6,6 +6,7 @@ import Image from 'next/image'
 import {
   ClipboardPenLineIcon,
   ClipboardPlusIcon,
+  ListChecksIcon,
   LogOutIcon,
   MilestoneIcon,
   SquareUserRoundIcon,
@@ -25,11 +26,14 @@ import {
   SidebarMenuItem,
 } from '../ui/sidebar'
 import { useAuth } from '@/src/modules/login/hooks/useAuth'
+import { useSession } from '@/src/modules/login/hooks/useSession'
 
 export default function AppSidebar({
   ...props
 }: ComponentProps<typeof Sidebar>) {
   const { logout } = useAuth()
+  const { user } = useSession()
+  const isAdmin = user?.role === 'admin'
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -91,33 +95,42 @@ export default function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Adminstrador</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton render={<Link href="/admin/users" />}>
-                  <UsersRoundIcon />
-                  <span className="font-medium">Usuarios</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Administrador</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton render={<Link href="/admin/users" />}>
+                    <UsersRoundIcon />
+                    <span className="font-medium">Usuarios</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <SidebarMenuButton render={<Link href="/admin/modules" />}>
-                  <SquareUserRoundIcon />
-                  <span className="font-medium">Modulos</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton render={<Link href="/admin/modules" />}>
+                    <SquareUserRoundIcon />
+                    <span className="font-medium">Módulos</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <SidebarMenuButton render={<Link href="/admin/operatives" />}>
-                  <MilestoneIcon />
-                  <span className="font-medium">Operativos</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                <SidebarMenuItem>
+                  <SidebarMenuButton render={<Link href="/admin/operatives" />}>
+                    <MilestoneIcon />
+                    <span className="font-medium">Operativos</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                  <SidebarMenuButton render={<Link href="/admin/attention-concepts" />}>
+                    <ListChecksIcon />
+                    <span className="font-medium">Conceptos</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
         {/* <NavMain /> */}
         {/* <NavSecondary className="mt-auto" /> */}
       </SidebarContent>

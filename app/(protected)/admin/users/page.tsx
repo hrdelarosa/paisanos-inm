@@ -16,9 +16,9 @@ export default function Users() {
         <div>
           <h1 className="text-2xl font-bold">Usuarios</h1>
           <p className="text-sm text-muted-foreground">
-            Aqui puedes gestionar los usuarios del sistema, crear nuevos
+            Aquí puedes gestionar los usuarios del sistema, crear nuevos
             usuarios, editar los existentes, asignar roles y banear usuarios
-            segun sea necesario.
+            según sea necesario.
           </p>
         </div>
 

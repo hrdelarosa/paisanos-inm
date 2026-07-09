@@ -117,7 +117,7 @@ export default function Actions({ user, isDeleted = true }: Props) {
               variant="outline"
               disabled={removeUser.isPending}
             >
-              Cancel
+              Cancelar
             </AlertDialogCancel>
             <AlertDialogAction
               variant="destructive"

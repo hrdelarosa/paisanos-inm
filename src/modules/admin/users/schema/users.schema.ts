@@ -1,4 +1,5 @@
 import z from 'zod'
+import { USER_ROLES } from '@/src/modules/domain/constants'
 
 export const createUserFormSchema = z.object({
   name: z
@@ -11,7 +12,7 @@ export const createUserFormSchema = z.object({
     .max(40, {
       message: 'El nombre de usuario no puede tener más de 40 caracteres',
     }),
-  role: z.enum(['admin', 'user'], { message: 'El rol es requerido' }),
+  role: z.enum(Object.values(USER_ROLES), { message: 'El rol es requerido' }),
   password: z
     .string()
     .min(1, { message: 'La contraseña es requerida' })

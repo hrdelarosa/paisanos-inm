@@ -1,9 +1,6 @@
-export const USER_ROLES = {
-  Admin: 'admin',
-  User: 'user',
-} as const
+export { USER_ROLES } from '@/src/modules/domain/constants'
 
-export type UserRole = keyof typeof USER_ROLES
+export type { UserRole } from '@/src/modules/domain/constants'
 
 export interface User {
   name: string
