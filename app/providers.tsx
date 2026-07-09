@@ -1,11 +1,14 @@
-import { SessionProvider } from '@/src/modules/login/context/session-context'
-import type { User } from '@/src/modules/login/types/user.types'
+'use client'
 
-interface Props {
-  children: React.ReactNode
-  user: User | null
-}
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { TooltipProvider } from '@/src/components/ui/tooltip'
 
-export default function Providers({ children, user }: Props) {
-  return <SessionProvider user={user}>{children}</SessionProvider>
+const queryClient = new QueryClient()
+
+export default function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>{children}</TooltipProvider>
+    </QueryClientProvider>
+  )
 }

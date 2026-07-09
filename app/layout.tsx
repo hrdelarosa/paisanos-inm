@@ -1,11 +1,9 @@
 import './globals.css'
 
-import { headers } from 'next/headers'
-import { Toaster } from 'sonner'
-import type { Metadata } from 'next'
 import { geistSans, roboto, inter } from '@/src/config/fonts'
+import type { Metadata } from 'next'
+import { Toaster } from 'sonner'
 import { cn } from '@/src/lib/utils'
-import { auth } from '@/src/lib/auth'
 import Providers from './providers'
 
 export const metadata: Metadata = {
@@ -20,8 +18,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await auth.api.getSession({ headers: await headers() })
-
   return (
     <html
       lang="en"
@@ -36,7 +32,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <Providers user={session?.user ?? null}>
+        <Providers>
           {children}
           <Toaster position="top-right" richColors closeButton />
         </Providers>
