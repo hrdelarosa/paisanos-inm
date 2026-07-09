@@ -42,3 +42,6 @@ next-env.d.ts
 
 # vscode 
 /.vscode
+
+# agents (skip for now, will be added to gitignore later)
+/.agents
