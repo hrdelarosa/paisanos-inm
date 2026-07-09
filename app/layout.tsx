@@ -1,7 +1,7 @@
 import './globals.css'
 
-import { geistSans, roboto, inter } from '@/src/config/fonts'
 import type { Metadata } from 'next'
+import { geistSans, roboto, inter } from '@/src/config/fonts'
 import { Toaster } from 'sonner'
 import { cn } from '@/src/lib/utils'
 import Providers from './providers'
@@ -19,8 +19,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-      <html
-        lang="es"
+    <html
+      lang="es"
       className={cn(
         'h-full',
         'antialiased',
