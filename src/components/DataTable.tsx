@@ -1,3 +1,4 @@
+import { Skeleton } from './ui/skeleton'
 import {
   Table,
   TableBody,
@@ -37,7 +38,7 @@ export default function DataTable<T>({
   return (
     <>
       {isLoading ? (
-        <div className="p-4 border rounded animate-pulse bg-white h-40" />
+        <Skeleton className="size-full" />
       ) : (
         <div className="overflow-hidden rounded-4xl border">
           <Table className="bg-white">

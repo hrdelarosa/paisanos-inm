@@ -5,6 +5,7 @@ import UserCreateDialog from '@/src/modules/admin/users/components/UserCreateDia
 import { useAdminUsers } from '@/src/modules/admin/users/hooks/useAdminUsers'
 import { Badge } from '@/src/components/ui/badge'
 import Actions from '@/src/modules/admin/users/components/Actions'
+import { SkeletonTable } from '@/src/components/SkeletonTable'
 
 export default function Users() {
   const { usersQuery } = useAdminUsers()
@@ -24,6 +25,8 @@ export default function Users() {
 
         <UserCreateDialog />
       </div>
+
+      {/* <SkeletonTable /> */}
 
       <DataTable
         items={users}
@@ -69,6 +72,7 @@ export default function Users() {
           },
         ]}
         actions={{
+          className: 'w-28',
           render: (user) => <Actions user={user} />,
         }}
       />

@@ -58,7 +58,7 @@ export default function Actions({ user, isDeleted = true }: Props) {
         <DropdownMenuTrigger
           nativeButton
           render={
-            <Button variant="outline">
+            <Button variant="outline" size="icon-sm">
               <EllipsisVerticalIcon />
             </Button>
           }
