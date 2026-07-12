@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 import { db } from '@/src/db'
 import { attentionTypes } from '@/src/db/schema'
-import { ATTENTION_TYPE_SEED } from '@/src/modules/domain/constants'
+import { ATTENTION_TYPE_SEED } from '@/src/constants/dominio'
 import { createId } from '@/src/lib/id'
 
 async function main() {

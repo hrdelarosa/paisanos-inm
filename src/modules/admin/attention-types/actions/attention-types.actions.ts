@@ -3,7 +3,7 @@
 import { asc } from 'drizzle-orm'
 import { db } from '@/src/db'
 import { attentionTypes } from '@/src/db/schema'
-import { requireSession } from '@/src/modules/domain/auth'
+import { requireSession } from '@/src/utils/auth'
 
 export async function listAttentionTypesAction() {
   await requireSession(['admin', 'enlace', 'capturista'])

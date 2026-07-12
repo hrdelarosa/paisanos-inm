@@ -4,7 +4,7 @@ import { Button } from '@/src/components/ui/button'
 import DataTable from '@/src/components/DataTable'
 import { Badge } from '@/src/components/ui/badge'
 import { formatDate, formatNumber } from '@/src/lib/format'
-import { REPORT_STATUSES } from '@/src/modules/domain/constants'
+import { REPORT_STATUSES } from '@/src/constants/dominio'
 import { useAttentionReports } from '@/src/modules/attentions/hooks/useAttentionReports'
 import { ClipboardPlusIcon } from 'lucide-react'
 import Link from 'next/link'
@@ -37,14 +37,47 @@ export default function Attentions() {
         emptyMessage="No hay reportes de atención registrados"
         getRowKey={(report) => report.id}
         columns={[
-          { key: 'reportDate', label: 'Fecha', render: (report) => formatDate(report.reportDate) },
-          { key: 'operativeName', label: 'Operativo', render: (report) => report.operativeName },
-          { key: 'moduleName', label: 'Módulo', render: (report) => report.moduleName },
-          { key: 'userName', label: 'Capturó', render: (report) => report.userName },
-          { key: 'total', label: 'Total', render: (report) => formatNumber(Number(report.total)) },
-          { key: 'status', label: 'Estado', render: (report) => <Badge>{REPORT_STATUSES[report.status]}</Badge> },
+          {
+            key: 'reportDate',
+            label: 'Fecha',
+            render: (report) => formatDate(report.reportDate),
+          },
+          {
+            key: 'operativeName',
+            label: 'Operativo',
+            render: (report) => report.operativeName,
+          },
+          {
+            key: 'moduleName',
+            label: 'Módulo',
+            render: (report) => report.moduleName,
+          },
+          {
+            key: 'userName',
+            label: 'Capturó',
+            render: (report) => report.userName,
+          },
+          {
+            key: 'total',
+            label: 'Total',
+            render: (report) => formatNumber(Number(report.total)),
+          },
+          {
+            key: 'status',
+            label: 'Estado',
+            render: (report) => <Badge>{REPORT_STATUSES[report.status]}</Badge>,
+          },
         ]}
-        actions={{ render: (report) => <Button variant="outline" render={<Link href={`/attentions/${report.id}`} />}>Ver</Button> }}
+        actions={{
+          render: (report) => (
+            <Button
+              variant="outline"
+              render={<Link href={`/attentions/${report.id}`} />}
+            >
+              Ver
+            </Button>
+          ),
+        }}
       />
     </div>
   )

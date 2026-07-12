@@ -1,10 +1,25 @@
-export const USER_ROLES = {
-  Admin: 'admin',
-  Enlace: 'enlace',
-  Capturista: 'capturista',
+export const USER_ROLES_KEYS = ['admin', 'enlace', 'capturista'] as const
+
+export type UserRole = (typeof USER_ROLES_KEYS)[number]
+
+export const USER_ROLES: Record<UserRole, string> = {
+  admin: 'Admin',
+  enlace: 'Enlace',
+  capturista: 'Capturista',
 } as const
 
-export const MODULE_TYPES = {
+export const MODULE_TYPES_KEYS = [
+  'airport',
+  'bus_station',
+  'customs_stop',
+  'road',
+  'public_square',
+  'other',
+] as const
+
+export type ModuleType = (typeof MODULE_TYPES_KEYS)[number]
+
+export const MODULE_TYPES: Record<ModuleType, string> = {
   airport: 'Aeropuerto internacional',
   bus_station: 'Central de autobuses',
   customs_stop: 'Parador aduanal',
@@ -13,14 +28,27 @@ export const MODULE_TYPES = {
   other: 'Otro',
 } as const
 
-export const OPERATIVE_SEASONS = {
+export const OPERATIVE_SEASON_KEYS = [
+  'holy_week',
+  'summer',
+  'winter',
+  'permanent',
+] as const
+
+export type OperativeSeason = (typeof OPERATIVE_SEASON_KEYS)[number]
+
+export const OPERATIVE_SEASONS: Record<OperativeSeason, string> = {
   holy_week: 'Semana Santa',
   summer: 'Verano',
   winter: 'Invierno',
   permanent: 'Permanente',
-} as const
+}
 
-export const REPORT_STATUSES = {
+export const REPORT_STATUSES_KEYS = ['draft', 'submitted', 'reviewed'] as const
+
+export type ReportStatus = (typeof REPORT_STATUSES_KEYS)[number]
+
+export const REPORT_STATUSES: Record<ReportStatus, string> = {
   draft: 'Borrador',
   submitted: 'Enviado',
   reviewed: 'Revisado',
@@ -52,8 +80,3 @@ export const ATTENTION_TYPE_SEED = [
   'Asesoría del Programa',
   'Otro',
 ] as const
-
-export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES]
-export type ModuleType = keyof typeof MODULE_TYPES
-export type OperativeSeason = keyof typeof OPERATIVE_SEASONS
-export type ReportStatus = keyof typeof REPORT_STATUSES

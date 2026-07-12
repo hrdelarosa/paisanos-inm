@@ -8,13 +8,15 @@ import {
   modules,
   operatives,
 } from '@/src/db/schema'
-import { requireSession } from '@/src/modules/domain/auth'
+import { requireSession } from '@/src/utils/auth'
 
 export async function getDashboardStatsAction() {
   await requireSession(['admin', 'enlace', 'capturista'])
 
   const [totalAttentions] = await db
-    .select({ total: sql<number>`coalesce(sum(${attentionReportItems.quantity}), 0)` })
+    .select({
+      total: sql<number>`coalesce(sum(${attentionReportItems.quantity}), 0)`,
+    })
     .from(attentionReportItems)
 
   const [activeModules] = await db

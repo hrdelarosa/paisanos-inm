@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers'
 import { auth } from '@/src/lib/auth'
-import { UserRole } from './constants'
+import { UserRole } from '@/src/constants/dominio'
 
 export async function requireSession(roles?: UserRole[]) {
   const session = await auth.api.getSession({ headers: await headers() })

@@ -11,7 +11,7 @@ import {
   user,
 } from '@/src/db/schema'
 import { createId } from '@/src/lib/id'
-import { requireSession } from '@/src/modules/domain/auth'
+import { requireSession } from '@/src/utils/auth'
 
 export interface CreateAttentionReportInput {
   operativeId: string
