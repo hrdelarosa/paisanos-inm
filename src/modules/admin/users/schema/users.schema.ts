@@ -15,7 +15,7 @@ export const createUserFormSchema = z.object({
   role: z.enum(USER_ROLES_KEYS, { message: 'El rol es requerido' }),
   password: z
     .string()
-    .min(1, { message: 'La contraseña es requerida' })
+    .min(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
     .max(50, { message: 'La contraseña no puede tener más de 50 caracteres' }),
 })
 
