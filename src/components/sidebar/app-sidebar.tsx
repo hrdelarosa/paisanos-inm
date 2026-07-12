@@ -27,12 +27,14 @@ import {
 } from '../ui/sidebar'
 import { useAuth } from '@/src/modules/login/hooks/useAuth'
 import { useSession } from '@/src/modules/login/hooks/useSession'
+import { useActiveRoute } from '@/src/hooks/useActiveRoute'
 
 export default function AppSidebar({
   ...props
 }: ComponentProps<typeof Sidebar>) {
   const { logout } = useAuth()
   const { user } = useSession()
+  const { isActive } = useActiveRoute()
   const isAdmin = user?.role === 'admin'
 
   return (
@@ -68,7 +70,10 @@ export default function AppSidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton render={<Link href="/attentions/new" />}>
+                <SidebarMenuButton
+                  render={<Link href="/attentions/new" />}
+                  isActive={isActive('/attentions/new')}
+                >
                   <ClipboardPlusIcon />
                   <span className="font-medium">Registro</span>
                 </SidebarMenuButton>
@@ -77,7 +82,7 @@ export default function AppSidebar({
               <SidebarMenuItem>
                 <SidebarMenuButton
                   render={<Link href="/attentions" />}
-                  // isActive={isActive(route.href)}
+                  isActive={isActive('/attentions')}
                   // tooltip={route.label}
                 >
                   <ClipboardPenLineIcon />
@@ -101,28 +106,40 @@ export default function AppSidebar({
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton render={<Link href="/admin/users" />}>
+                  <SidebarMenuButton
+                    render={<Link href="/admin/users" />}
+                    isActive={isActive('/admin/users')}
+                  >
                     <UsersRoundIcon />
                     <span className="font-medium">Usuarios</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
-                  <SidebarMenuButton render={<Link href="/admin/modules" />}>
+                  <SidebarMenuButton
+                    render={<Link href="/admin/modules" />}
+                    isActive={isActive('/admin/modules')}
+                  >
                     <SquareUserRoundIcon />
                     <span className="font-medium">Módulos</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
-                  <SidebarMenuButton render={<Link href="/admin/operatives" />}>
+                  <SidebarMenuButton
+                    render={<Link href="/admin/operatives" />}
+                    isActive={isActive('/admin/operatives')}
+                  >
                     <MilestoneIcon />
                     <span className="font-medium">Operativos</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
-                  <SidebarMenuButton render={<Link href="/admin/attention-concepts" />}>
+                  <SidebarMenuButton
+                    render={<Link href="/admin/attention-concepts" />}
+                    isActive={isActive('/admin/attention-concepts')}
+                  >
                     <ListChecksIcon />
                     <span className="font-medium">Conceptos</span>
                   </SidebarMenuButton>
