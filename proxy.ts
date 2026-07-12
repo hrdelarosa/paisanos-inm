@@ -1,21 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSessionCookie } from 'better-auth/cookies'
 
-const PUBLIC_ROUTES = ['/login']
+// const PUBLIC_ROUTES = ['/login']
 
 export async function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request)
-  const isPublicRoute = PUBLIC_ROUTES.some((route) =>
-    request.nextUrl.pathname.startsWith(route),
-  )
+  const isPublicRoute = request.nextUrl.pathname.startsWith('/login')
 
   if (!sessionCookie && !isPublicRoute) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
+  // const isPublicRoute = PUBLIC_ROUTES.some((route) =>
+  //   request.nextUrl.pathname.startsWith(route),
+  // )
 
-  if (sessionCookie && isPublicRoute) {
-    return NextResponse.redirect(new URL('/', request.url))
-  }
+  // if (!sessionCookie && !isPublicRoute) {
+  //   return NextResponse.redirect(new URL('/login', request.url))
+  // }
+
+  // if (sessionCookie && isPublicRoute) {
+  //   return NextResponse.redirect(new URL('/', request.url))
+  // }
 
   return NextResponse.next()
 }

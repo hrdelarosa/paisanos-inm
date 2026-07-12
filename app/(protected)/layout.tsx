@@ -1,9 +1,18 @@
-import AppSidebar from '@/src/components/sidebar/app-sidebar'
-import { SidebarInset, SidebarProvider } from '@/src/components/ui/sidebar'
-import { auth } from '@/src/lib/auth'
-import { SessionProvider } from '@/src/modules/login/context/session-context'
+import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+
+import AppSidebar from '@/src/components/sidebar/app-sidebar'
+import { SidebarInset, SidebarProvider } from '@/src/components/ui/sidebar'
+import { SessionProvider } from '@/src/modules/login/context/session-context'
+import { auth } from '@/src/lib/auth'
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default async function ProtectedLayout({
   children,
@@ -12,7 +21,7 @@ export default async function ProtectedLayout({
 }) {
   const session = await auth.api.getSession({ headers: await headers() })
 
-  if (!session) redirect('/login')
+  if (!session || session.user.role !== 'admin') redirect('/login')
 
   return (
     <SessionProvider user={session.user}>
