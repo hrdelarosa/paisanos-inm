@@ -38,8 +38,15 @@ export default function LoginForm() {
                 placeholder="paisanosinm"
                 autoFocus
                 aria-invalid={!!errors.username}
+                aria-describedby={
+                  errors.username ? 'username-error' : undefined
+                }
               />
-              <FieldError className="text-destructive">
+              <FieldError
+                className="text-destructive"
+                role="alert"
+                id="username-error"
+              >
                 {errors.username?.message}
               </FieldError>
             </Field>

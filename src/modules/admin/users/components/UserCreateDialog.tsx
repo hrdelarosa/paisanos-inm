@@ -93,8 +93,13 @@ export default function UserCreateDialog() {
                 autoComplete="name"
                 autoFocus
                 aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? 'name-error' : undefined}
               />
-              <FieldError className="text-destructive">
+              <FieldError
+                className="text-destructive"
+                role="alert"
+                id="name-error"
+              >
                 {errors.name?.message}
               </FieldError>
             </Field>
@@ -107,8 +112,15 @@ export default function UserCreateDialog() {
                 type="text"
                 autoComplete="username"
                 aria-invalid={!!errors.username}
+                aria-describedby={
+                  errors.username ? 'username-error' : undefined
+                }
               />
-              <FieldError className="text-destructive">
+              <FieldError
+                className="text-destructive"
+                role="alert"
+                id="username-error"
+              >
                 {errors.username?.message}
               </FieldError>
             </Field>
@@ -140,6 +152,7 @@ export default function UserCreateDialog() {
                     id="role"
                     className="w-full"
                     aria-invalid={!!errors.role}
+                    aria-describedby={errors.role ? 'role-error' : undefined}
                   >
                     {selectedRoleLabel ? (
                       <span className="truncate">{selectedRoleLabel}</span>
@@ -159,7 +172,11 @@ export default function UserCreateDialog() {
                   </SelectContent>
                 </Select>
 
-                <FieldError className="text-destructive">
+                <FieldError
+                  className="text-destructive"
+                  role="alert"
+                  id="role-error"
+                >
                   {errors.role?.message}
                 </FieldError>
               </Field>

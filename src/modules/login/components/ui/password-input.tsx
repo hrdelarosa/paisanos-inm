@@ -30,12 +30,17 @@ export function PasswordInput({ label, children, error, ...props }: Props) {
           id={props.id}
           type={showPassword ? 'text' : 'password'}
           aria-invalid={!!error}
+          aria-describedby={error ? `${props.id}-error` : undefined}
         />
         <InputGroupAddon align="inline-end">
           <Button
             variant="ghost"
             size="icon-xs"
             type="button"
+            aria-label={
+              showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+            }
+            aria-describedby={error ? `${props.id}-error` : undefined}
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <EyeIcon /> : <EyeOffIcon />}
@@ -43,7 +48,13 @@ export function PasswordInput({ label, children, error, ...props }: Props) {
         </InputGroupAddon>
       </InputGroup>
 
-      <FieldError className="text-destructive">{error}</FieldError>
+      <FieldError
+        className="text-destructive"
+        role="alert"
+        id={`${props.id}-error`}
+      >
+        {error}
+      </FieldError>
     </Field>
   )
 }

@@ -87,8 +87,13 @@ export default function ModuleCreateDialog() {
                 type="text"
                 autoFocus
                 aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? 'name-error' : undefined}
               />
-              <FieldError className="text-destructive">
+              <FieldError
+                className="text-destructive"
+                role="alert"
+                id="name-error"
+              >
                 {errors.name?.message}
               </FieldError>
             </Field>
@@ -111,6 +116,7 @@ export default function ModuleCreateDialog() {
                   id="type"
                   className="w-full"
                   aria-invalid={!!errors.type}
+                  aria-describedby={errors.type ? 'type-error' : undefined}
                 >
                   {selectedTypeLabel ? (
                     <span className="truncate">{selectedTypeLabel}</span>
@@ -130,7 +136,11 @@ export default function ModuleCreateDialog() {
                 </SelectContent>
               </Select>
 
-              <FieldError className="text-destructive">
+              <FieldError
+                className="text-destructive"
+                role="alert"
+                id="type-error"
+              >
                 {errors.type?.message}
               </FieldError>
             </Field>
@@ -142,8 +152,15 @@ export default function ModuleCreateDialog() {
                 id="location"
                 type="text"
                 aria-invalid={!!errors.location}
+                aria-describedby={
+                  errors.location ? 'location-error' : undefined
+                }
               />
-              <FieldError className="text-destructive">
+              <FieldError
+                className="text-destructive"
+                role="alert"
+                id="location-error"
+              >
                 {errors.location?.message}
               </FieldError>
             </Field>
@@ -156,8 +173,15 @@ export default function ModuleCreateDialog() {
                   id="municipality"
                   type="text"
                   aria-invalid={!!errors.municipality}
+                  aria-describedby={
+                    errors.municipality ? 'municipality-error' : undefined
+                  }
                 />
-                <FieldError className="text-destructive">
+                <FieldError
+                  className="text-destructive"
+                  role="alert"
+                  id="municipality-error"
+                >
                   {errors.municipality?.message}
                 </FieldError>
               </Field>
@@ -170,9 +194,14 @@ export default function ModuleCreateDialog() {
                   type="text"
                   autoComplete="name"
                   aria-invalid={!!errors.state}
+                  aria-describedby={errors.state ? 'state-error' : undefined}
                   disabled
                 />
-                <FieldError className="text-destructive">
+                <FieldError
+                  className="text-destructive"
+                  role="alert"
+                  id="state-error"
+                >
                   {errors.state?.message}
                 </FieldError>
               </Field>

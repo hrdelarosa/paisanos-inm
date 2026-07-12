@@ -128,8 +128,13 @@ export default function OperativeCreateDialog() {
                 type="text"
                 autoFocus
                 aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? 'name-error' : undefined}
               />
-              <FieldError className="text-destructive">
+              <FieldError
+                className="text-destructive"
+                role="alert"
+                id="name-error"
+              >
                 {errors.name?.message}
               </FieldError>
             </Field>
@@ -153,6 +158,9 @@ export default function OperativeCreateDialog() {
                     id="season"
                     className="w-full"
                     aria-invalid={!!errors.season}
+                    aria-describedby={
+                      errors.season ? 'season-error' : undefined
+                    }
                   >
                     {selectedSeasonLabel ? (
                       <span className="truncate">{selectedSeasonLabel}</span>
@@ -172,7 +180,11 @@ export default function OperativeCreateDialog() {
                   </SelectContent>
                 </Select>
 
-                <FieldError className="text-destructive">
+                <FieldError
+                  className="text-destructive"
+                  role="alert"
+                  id="season-error"
+                >
                   {errors.season?.message}
                 </FieldError>
               </Field>
@@ -195,6 +207,7 @@ export default function OperativeCreateDialog() {
                     id="year"
                     className="w-full"
                     aria-invalid={!!errors.year}
+                    aria-describedby={errors.year ? 'year-error' : undefined}
                   >
                     <SelectValue placeholder="Selecciona un año" />
                   </SelectTrigger>
@@ -210,7 +223,11 @@ export default function OperativeCreateDialog() {
                   </SelectContent>
                 </Select>
 
-                <FieldError className="text-destructive">
+                <FieldError
+                  className="text-destructive"
+                  role="alert"
+                  id="year-error"
+                >
                   {errors.year?.message}
                 </FieldError>
               </Field>
