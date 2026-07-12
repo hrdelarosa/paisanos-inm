@@ -4,16 +4,8 @@ import { desc, eq } from 'drizzle-orm'
 import { db } from '@/src/db'
 import { operatives } from '@/src/db/schema'
 import { createId } from '@/src/lib/id'
-import { OperativeSeason } from '@/src/modules/domain/constants'
-import { requireSession } from '@/src/modules/domain/auth'
-
-export interface CreateOperativeInput {
-  name: string
-  season: OperativeSeason
-  year: number
-  startDate: string
-  endDate: string
-}
+import { requireSession } from '@/src/utils/auth'
+import { CreateOperativeInput } from '../types/operatives.types'
 
 export async function listOperativesAction() {
   await requireSession(['admin', 'enlace', 'capturista'])
@@ -21,7 +13,11 @@ export async function listOperativesAction() {
   return db.select().from(operatives).orderBy(desc(operatives.year))
 }
 
-export async function createOperativeAction(input: CreateOperativeInput) {
+export async function createOperativeAction({
+  input,
+}: {
+  input: CreateOperativeInput
+}) {
   await requireSession(['admin'])
 
   await db.insert(operatives).values({

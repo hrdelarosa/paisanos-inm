@@ -1,13 +1,13 @@
 'use client'
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   createOperativeAction,
-  CreateOperativeInput,
   listOperativesAction,
   toggleOperativeStatusAction,
 } from '../actions/operatives.actions'
+import { CreateOperativeInput } from '../types/operatives.types'
 
 export const OPERATIVES_QUERY_KEY = ['admin', 'operatives']
 
@@ -20,7 +20,8 @@ export function useOperatives() {
   })
 
   const createOperative = useMutation({
-    mutationFn: (input: CreateOperativeInput) => createOperativeAction(input),
+    mutationFn: (input: CreateOperativeInput) =>
+      createOperativeAction({ input }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: OPERATIVES_QUERY_KEY })
       toast.success('Operativo creado correctamente')

@@ -63,7 +63,7 @@ export default function DataTable<T>({
                 <TableRow>
                   <TableCell
                     colSpan={colSpan}
-                    className="text-muted-foreground text-center"
+                    className="text-muted-foreground text-center p-4"
                   >
                     {emptyMessage || 'No se encontraron registros'}
                   </TableCell>

@@ -1,26 +1,33 @@
 'use client'
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
+  modulesAction,
   createModuleAction,
-  CreateModuleInput,
-  listModulesAction,
   toggleModuleStatusAction,
+  moduleAction,
 } from '../actions/modules.actions'
+import { CreateModuleInput } from '../types/modules.types'
 
 export const MODULES_QUERY_KEY = ['admin', 'modules']
 
-export function useModules() {
+export function useModules(id?: string) {
   const queryClient = useQueryClient()
 
   const modulesQuery = useQuery({
     queryKey: MODULES_QUERY_KEY,
-    queryFn: listModulesAction,
+    queryFn: modulesAction,
+  })
+
+  const moduleQuery = useQuery({
+    queryKey: [...MODULES_QUERY_KEY, 'module', id],
+    queryFn: () => moduleAction({ id: id! }),
+    enabled: Boolean(id),
   })
 
   const createModule = useMutation({
-    mutationFn: (input: CreateModuleInput) => createModuleAction(input),
+    mutationFn: (input: CreateModuleInput) => createModuleAction({ input }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: MODULES_QUERY_KEY })
       toast.success('Módulo creado correctamente')
@@ -37,5 +44,5 @@ export function useModules() {
     onError: (error) => toast.error(error.message),
   })
 
-  return { modulesQuery, createModule, toggleModuleStatus }
+  return { modulesQuery, moduleQuery, createModule, toggleModuleStatus }
 }
