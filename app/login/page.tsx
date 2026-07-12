@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+
 import {
   Card,
   CardHeader,
@@ -6,6 +8,12 @@ import {
   CardContent,
 } from '@/src/components/ui/card'
 import LoginForm from '@/src/modules/login/components/LoginForm'
+
+export const metadata: Metadata = {
+  title: 'Iniciar sesión',
+  description:
+    'Inicia sesión con tu cuenta para acceder al sistema de registro de atenciones del Programa Héroes Paisanos del Instituto Nacional de Migración.',
+}
 
 export default function Login() {
   return (

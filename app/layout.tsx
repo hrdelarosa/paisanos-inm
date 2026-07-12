@@ -7,8 +7,10 @@ import { cn } from '@/src/lib/utils'
 import Providers from './providers'
 
 export const metadata: Metadata = {
-  title:
-    'Sistema de Registro de Atenciones | Programa Heroínas y Héroes Paisanos',
+  title: {
+    default: 'Sistema de Registro de Atenciones',
+    template: '%s | Programa Heroínas y Héroes Paisanos',
+  },
   description:
     'Sistema institucional para el registro, seguimiento y consolidación de las atenciones realizadas en los módulos del Programa Héroes Paisanos del Instituto Nacional de Migración.',
 }
