@@ -4,6 +4,8 @@ import { useState } from 'react'
 import {
   EllipsisVerticalIcon,
   InfoIcon,
+  ShieldAlertIcon,
+  ShieldCheckIcon,
   Trash2Icon,
   UserRoundPenIcon,
 } from 'lucide-react'
@@ -77,7 +79,15 @@ export default function Actions({ user, isDeleted = true }: Props) {
               onClick={() => toggleBanUser.mutate(user)}
               disabled={currentUser?.id === user.id || toggleBanUser.isPending}
             >
-              Banear
+              {user.banned ? (
+                <>
+                  <ShieldCheckIcon /> Desbloquear
+                </>
+              ) : (
+                <>
+                  <ShieldAlertIcon /> Bloquear
+                </>
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem disabled={currentUser?.id === user.id}>
               Revocar sesiones

@@ -47,12 +47,12 @@ export default function Users() {
             render: (user) => user.role,
           },
           {
-            key: 'banned',
-            label: 'Baneado',
-            className: 'w-28',
+            key: 'state',
+            label: 'Estado',
+            className: 'w-30',
             render: (user) => (
               <Badge variant={user.banned ? 'destructive' : 'default'}>
-                {user.banned ? 'Baneado' : 'Activo'}
+                {user.banned ? 'Bloqueado' : 'Activo'}
               </Badge>
             ),
           },
