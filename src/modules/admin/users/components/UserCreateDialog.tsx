@@ -6,7 +6,7 @@ import {
   CreateUserFormInput,
   createUserFormSchema,
 } from '../schema/users.schema'
-import { USER_ROLES } from '../types/users.types'
+import { USER_ROLES, UserRole } from '@/src/constants/dominio'
 
 import { Input } from '@/src/components/ui/input'
 import { Button } from '@/src/components/ui/button'
@@ -48,7 +48,7 @@ export default function UserCreateDialog() {
       defaultValues: {
         name: '',
         username: '',
-        role: '',
+        role: 'capturista',
         password: '',
       },
       onSubmit: (data) => {
@@ -60,7 +60,8 @@ export default function UserCreateDialog() {
         })
       },
     })
-  const selectedRole = watch('role')
+  const selectedRole = watch('role') as UserRole
+  const selectedRoleLabel = USER_ROLES[selectedRole]
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -140,13 +141,17 @@ export default function UserCreateDialog() {
                     className="w-full"
                     aria-invalid={!!errors.role}
                   >
-                    <SelectValue placeholder="Selecciona un rol" />
+                    {selectedRoleLabel ? (
+                      <span className="truncate">{selectedRoleLabel}</span>
+                    ) : (
+                      <SelectValue placeholder="Selecciona un rol" />
+                    )}
                   </SelectTrigger>
 
                   <SelectContent>
                     <SelectGroup>
-                      {Object.entries(USER_ROLES).map(([, value]) => (
-                        <SelectItem key={value} value={value}>
+                      {Object.entries(USER_ROLES).map(([key, value]) => (
+                        <SelectItem key={key} value={key}>
                           {value}
                         </SelectItem>
                       ))}

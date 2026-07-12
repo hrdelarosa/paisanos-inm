@@ -1,11 +1,10 @@
 'use client'
 
+import { Badge } from '@/src/components/ui/badge'
+import Actions from '@/src/modules/admin/users/components/Actions'
 import DataTable from '@/src/components/DataTable'
 import UserCreateDialog from '@/src/modules/admin/users/components/UserCreateDialog'
 import { useAdminUsers } from '@/src/modules/admin/users/hooks/useAdminUsers'
-import { Badge } from '@/src/components/ui/badge'
-import Actions from '@/src/modules/admin/users/components/Actions'
-import { SkeletonTable } from '@/src/components/SkeletonTable'
 
 export default function Users() {
   const { usersQuery } = useAdminUsers()
@@ -25,8 +24,6 @@ export default function Users() {
 
         <UserCreateDialog />
       </div>
-
-      {/* <SkeletonTable /> */}
 
       <DataTable
         items={users}
@@ -52,6 +49,7 @@ export default function Users() {
           {
             key: 'banned',
             label: 'Baneado',
+            className: 'w-28',
             render: (user) => (
               <Badge variant={user.banned ? 'destructive' : 'default'}>
                 {user.banned ? 'Baneado' : 'Activo'}

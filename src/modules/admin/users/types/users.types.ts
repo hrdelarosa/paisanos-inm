@@ -1,7 +1,3 @@
-export { USER_ROLES } from '@/src/modules/domain/constants'
-
-export type { UserRole } from '@/src/modules/domain/constants'
-
 export interface User {
   name: string
   email: string
