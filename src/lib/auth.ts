@@ -4,12 +4,13 @@ import { username, admin } from 'better-auth/plugins'
 import { nextCookies } from 'better-auth/next-js'
 import { db } from '@/src/db/index'
 import * as schema from '@/src/db/schema'
+import { env } from '@/src/config/env.server'
 
 export const auth = betterAuth({
   appName: 'Programa Heroínas y Héroes Paisanos',
-  baseUrl: process.env.NEXT_PUBLIC_BASE_URL!,
-  secret: process.env.NEXT_PUBLIC_AUTH_SECRET!,
-  trustedOrigins: [process.env.NEXT_PUBLIC_BASE_URL!],
+  baseURL: env.BETTER_AUTH_URL,
+  secret: env.BETTER_AUTH_SECRET,
+  trustedOrigins: [env.BETTER_AUTH_URL],
   database: drizzleAdapter(db, {
     provider: 'sqlite',
     schema,
@@ -21,5 +22,5 @@ export const auth = betterAuth({
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,
   },
-  plugins: [username(), admin(), nextCookies()],
+  plugins: [username(), admin({ defaultRole: 'capturista' }), nextCookies()],
 })
