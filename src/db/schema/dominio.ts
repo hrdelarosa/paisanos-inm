@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm'
 import {
+  check,
   index,
   integer,
   sqliteTable,
@@ -35,6 +36,7 @@ export const operatives = sqliteTable(
   (table) => [
     index('operatives_season_year_idx').on(table.season, table.year),
     index('operatives_is_active_idx').on(table.isActive),
+    check('operatives_dates_check', sql`${table.endDate} >= ${table.startDate}`),
   ],
 )
 
@@ -106,6 +108,20 @@ export const moduleAssignments = sqliteTable(
     index('module_assignments_module_id_idx').on(table.moduleId),
     index('module_assignments_operative_id_idx').on(table.operativeId),
     index('module_assignments_is_active_idx').on(table.isActive),
+    index('module_assignments_user_dates_idx').on(
+      table.userId,
+      table.startDate,
+      table.endDate,
+    ),
+    index('module_assignments_scope_idx').on(
+      table.operativeId,
+      table.moduleId,
+      table.userId,
+    ),
+    check(
+      'module_assignments_dates_check',
+      sql`${table.endDate} is null or ${table.endDate} >= ${table.startDate}`,
+    ),
   ],
 )
 
@@ -148,6 +164,10 @@ export const attentionReports = sqliteTable(
       .default('submitted')
       .notNull(),
     notes: text('notes'),
+    reviewedBy: text('reviewed_by').references(() => user.id, {
+      onDelete: 'set null',
+    }),
+    reviewedAt: integer('reviewed_at', { mode: 'timestamp_ms' }),
     ...timestamps,
   },
   (table) => [
@@ -156,6 +176,21 @@ export const attentionReports = sqliteTable(
     index('attention_reports_user_id_idx').on(table.userId),
     index('attention_reports_report_date_idx').on(table.reportDate),
     index('attention_reports_status_idx').on(table.status),
+    index('attention_reports_reviewed_by_idx').on(table.reviewedBy),
+    index('attention_reports_operative_date_idx').on(
+      table.operativeId,
+      table.reportDate,
+    ),
+    index('attention_reports_module_date_idx').on(
+      table.moduleId,
+      table.reportDate,
+    ),
+    index('attention_reports_user_date_idx').on(table.userId, table.reportDate),
+    index('attention_reports_scope_date_idx').on(
+      table.operativeId,
+      table.moduleId,
+      table.reportDate,
+    ),
   ],
 )
 
@@ -182,5 +217,6 @@ export const attentionReportItems = sqliteTable(
     index('attention_report_items_attention_type_id_idx').on(
       table.attentionTypeId,
     ),
+    check('attention_report_items_quantity_check', sql`${table.quantity} >= 0`),
   ],
 )
