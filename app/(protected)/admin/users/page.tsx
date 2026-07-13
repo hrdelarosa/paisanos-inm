@@ -1,10 +1,12 @@
 'use client'
 
+import { USER_ROLES, UserRole } from '@/src/constants/dominio'
+
 import { Badge } from '@/src/components/ui/badge'
 import Actions from '@/src/modules/admin/users/components/Actions'
 import DataTable from '@/src/components/DataTable'
 import UserCreateDialog from '@/src/modules/admin/users/components/UserCreateDialog'
-import { useAdminUsers } from '@/src/modules/admin/users/hooks/useAdminUsers'
+import { useAdminUsers } from '@/src/modules/admin/users/hooks/useUsers'
 
 export default function Users() {
   const { usersQuery } = useAdminUsers()
@@ -44,7 +46,12 @@ export default function Users() {
           {
             key: 'role',
             label: 'Rol',
-            render: (user) => user.role,
+            render: (user) => USER_ROLES[user.role as UserRole] ?? user.role,
+          },
+          {
+            key: 'module',
+            label: 'Módulo',
+            render: (user) => user.module || 'N/A',
           },
           {
             key: 'state',

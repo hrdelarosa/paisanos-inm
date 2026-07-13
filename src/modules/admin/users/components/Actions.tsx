@@ -34,7 +34,7 @@ import {
   AlertDialogTitle,
 } from '@/src/components/ui/alert-dialog'
 import { useSession } from '@/src/modules/login/hooks/useSession'
-import { useAdminUsers } from '../hooks/useAdminUsers'
+import { useAdminUsers } from '../hooks/useUsers'
 
 interface Props {
   user: User

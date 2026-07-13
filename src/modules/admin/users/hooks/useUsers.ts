@@ -1,15 +1,15 @@
 'use client'
 
-import { User } from '@/src/modules/login/types/user.types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CreateUserFormInput } from '../schema/users.schema'
+import { AdminUser } from '../types/users.types'
 import {
   banUserAction,
   createUserAction,
   removeUserAction,
   unbanUserAction,
   usersActios,
-} from '../../actions/admin.actions'
+} from '../actions/users.actions'
 import { toast } from 'sonner'
 
 const USERS_QUERY_KEY = ['admin', 'users']
@@ -21,17 +21,20 @@ export function useAdminUsers() {
     queryKey: USERS_QUERY_KEY,
     queryFn: async () => {
       const result = await usersActios()
-      return result.users as User[]
+      return result.users as AdminUser[]
     },
   })
 
   const createUserMutation = useMutation({
     mutationFn: (input: CreateUserFormInput) => createUserAction({ input }),
     onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY })
+
       if (!result.success) {
         toast.error(result.error)
+        return
       }
-      queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY })
+
       toast.success('Usuario creado correctamente')
     },
     onError: (error) => {
@@ -40,7 +43,7 @@ export function useAdminUsers() {
   })
 
   const toggleBanUserMutation = useMutation({
-    mutationFn: async (user: User) =>
+    mutationFn: async (user: AdminUser) =>
       user.banned
         ? unbanUserAction({ userId: user.id })
         : banUserAction({ userId: user.id }),

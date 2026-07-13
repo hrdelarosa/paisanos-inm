@@ -1,11 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UserPlus2Icon } from 'lucide-react'
-import {
-  CreateUserFormInput,
-  createUserFormSchema,
-} from '../schema/users.schema'
+import { createUserFormSchema } from '../schema/users.schema'
 import { USER_ROLES, UserRole } from '@/src/constants/dominio'
 
 import { Input } from '@/src/components/ui/input'
@@ -37,11 +34,13 @@ import {
   DialogTrigger,
 } from '@/src/components/ui/dialog'
 import { useValidatedForm } from '@/src/modules/login/hooks/useValidatedForm'
-import { useAdminUsers } from '../hooks/useAdminUsers'
+import { useAdminUsers } from '../hooks/useUsers'
+import { useModules } from '../../modules/hooks/useModules'
 
 export default function UserCreateDialog() {
   const [open, setOpen] = useState(false)
   const { createUser } = useAdminUsers()
+  const { modulesQuery } = useModules()
   const { register, handleSubmit, errors, reset, setValue, watch } =
     useValidatedForm({
       formSchema: createUserFormSchema,
@@ -50,9 +49,10 @@ export default function UserCreateDialog() {
         username: '',
         role: 'capturista',
         password: '',
+        moduleId: '',
       },
       onSubmit: (data) => {
-        createUser.mutate(data as CreateUserFormInput, {
+        createUser.mutate(data, {
           onSuccess: () => {
             reset()
             setOpen(false)
@@ -62,9 +62,31 @@ export default function UserCreateDialog() {
     })
   const selectedRole = watch('role') as UserRole
   const selectedRoleLabel = USER_ROLES[selectedRole]
+  const selectedModuleId = watch('moduleId')
+  const modules = modulesQuery.data || []
+  const selectedModuleLabel =
+    modules.find((module) => module.id === selectedModuleId)?.name ?? ''
+
+  useEffect(() => {
+    if (selectedRole !== 'capturista' && selectedModuleId) {
+      setValue('moduleId', '', {
+        shouldDirty: true,
+        shouldValidate: true,
+      })
+    }
+  }, [selectedModuleId, selectedRole, setValue])
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen)
+
+        if (!nextOpen) {
+          reset()
+        }
+      }}
+    >
       <DialogTrigger
         render={
           <Button size="lg">
@@ -146,6 +168,13 @@ export default function UserCreateDialog() {
                       shouldDirty: true,
                       shouldValidate: true,
                     })
+
+                    if (value !== 'capturista') {
+                      setValue('moduleId', '', {
+                        shouldDirty: true,
+                        shouldValidate: true,
+                      })
+                    }
                   }}
                 >
                   <SelectTrigger
@@ -181,6 +210,64 @@ export default function UserCreateDialog() {
                 </FieldError>
               </Field>
             </FieldGroup>
+
+            {selectedRole === 'capturista' && (
+              <Field className="gap-1.5">
+                <FieldLabel htmlFor="moduleId">Módulo</FieldLabel>
+
+                <Select
+                  value={selectedModuleId ?? ''}
+                  onValueChange={(value) => {
+                    if (!value) return
+
+                    setValue('moduleId', value, {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    })
+                  }}
+                  disabled={modulesQuery.isLoading}
+                >
+                  <SelectTrigger
+                    id="moduleId"
+                    className="w-full"
+                    aria-invalid={!!errors.moduleId}
+                    aria-describedby={
+                      errors.moduleId ? 'moduleId-error' : undefined
+                    }
+                  >
+                    {selectedModuleLabel ? (
+                      <span className="truncate">{selectedModuleLabel}</span>
+                    ) : (
+                      <SelectValue
+                        placeholder={
+                          modulesQuery.isLoading
+                            ? 'Cargando módulos...'
+                            : 'Selecciona un módulo'
+                        }
+                      />
+                    )}
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectGroup>
+                      {modules.map((module) => (
+                        <SelectItem key={module.id} value={module.id}>
+                          {module.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+
+                <FieldError
+                  className="text-destructive"
+                  role="alert"
+                  id="moduleId-error"
+                >
+                  {errors.moduleId?.message}
+                </FieldError>
+              </Field>
+            )}
           </FieldGroup>
 
           <DialogFooter className="mt-8">
