@@ -47,8 +47,14 @@ export function useAdminUsers() {
       user.banned
         ? unbanUserAction({ userId: user.id })
         : banUserAction({ userId: user.id }),
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY })
+
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+
       toast.success('Estado del usuario actualizado correctamente')
     },
     onError: (error) => {
@@ -58,8 +64,14 @@ export function useAdminUsers() {
 
   const removeUserMutation = useMutation({
     mutationFn: async (userId: string) => removeUserAction({ userId }),
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY })
+
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+
       toast.success('Usuario eliminado correctamente')
     },
     onError: (error) => {

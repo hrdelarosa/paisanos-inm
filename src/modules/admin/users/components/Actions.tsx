@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import {
   EllipsisVerticalIcon,
   InfoIcon,
@@ -9,7 +10,7 @@ import {
   Trash2Icon,
   UserRoundPenIcon,
 } from 'lucide-react'
-import { User } from '@/src/modules/login/types/user.types'
+import type { AdminUser } from '../types/users.types'
 
 import { Button } from '@/src/components/ui/button'
 import { SpinnerCustom } from '@/src/components/ui/spinner'
@@ -37,7 +38,7 @@ import { useSession } from '@/src/modules/login/hooks/useSession'
 import { useAdminUsers } from '../hooks/useUsers'
 
 interface Props {
-  user: User
+  user: AdminUser
   isDeleted?: boolean
 }
 
@@ -61,6 +62,7 @@ export default function Actions({ user, isDeleted = true }: Props) {
           nativeButton
           render={
             <Button variant="outline" size="icon-sm">
+              <span className="sr-only">Abrir acciones del usuario</span>
               <EllipsisVerticalIcon />
             </Button>
           }
@@ -69,10 +71,14 @@ export default function Actions({ user, isDeleted = true }: Props) {
           <DropdownMenuGroup>
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
 
-            <DropdownMenuItem>
-              <InfoIcon /> Detalles
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              render={
+                <Link href={`/admin/users/${user.id}`}>
+                  <InfoIcon /> Detalles
+                </Link>
+              }
+            />
+            <DropdownMenuItem disabled>
               <UserRoundPenIcon /> Editar
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -89,7 +95,7 @@ export default function Actions({ user, isDeleted = true }: Props) {
                 </>
               )}
             </DropdownMenuItem>
-            <DropdownMenuItem disabled={currentUser?.id === user.id}>
+            <DropdownMenuItem disabled>
               Revocar sesiones
             </DropdownMenuItem>
           </DropdownMenuGroup>

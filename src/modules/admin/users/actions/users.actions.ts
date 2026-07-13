@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers'
 import { APIError } from 'better-auth'
-import { CreateUserFormInput } from '../schema/users.schema'
+import { createUserFormSchema } from '../schema/users.schema'
 import { auth } from '@/src/lib/auth'
 import { db } from '@/src/db'
 import { modules, user, userProfiles } from '@/src/db/schema'
@@ -56,28 +56,56 @@ export async function usersActios() {
 export async function createUserAction({
   input,
 }: {
-  input: CreateUserFormInput
+  input: unknown
 }) {
   await requireAdmin()
+  const parsed = createUserFormSchema.safeParse(input)
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      error: 'Datos inválidos',
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    }
+  }
+
+  const data = parsed.data
 
   try {
+    if (data.role === 'capturista') {
+      const [module] = await db
+        .select({ id: modules.id })
+        .from(modules)
+        .where(eq(modules.id, data.moduleId!))
+        .limit(1)
+
+      if (!module) {
+        return { success: false, error: 'El módulo seleccionado no existe' }
+      }
+    }
+
     const { user: createdUser } = await auth.api.createUser({
       body: {
-        email: `${input.username}@paisanos-inm.local`,
-        password: input.password,
-        name: input.name,
-        role: input.role as 'admin' | 'user',
+        email: `${data.username}@paisanos-inm.local`,
+        password: data.password,
+        name: data.name,
+        role: data.role === 'admin' ? 'admin' : 'user',
         data: {
-          username: input.username,
-          displayUsername: input.username,
+          username: data.username,
+          displayUsername: data.username,
         },
       },
     })
 
-    const moduleId =
-      input.role === 'capturista' ? input.moduleId : undefined
+    await db
+      .update(user)
+      .set({ role: data.role })
+      .where(eq(user.id, createdUser.id))
 
-    if (input.role === 'capturista') {
+    const moduleId =
+      data.role === 'capturista' ? data.moduleId : undefined
+
+    if (data.role === 'capturista') {
       if (!moduleId) {
         await auth.api.removeUser({
           body: { userId: createdUser.id },
