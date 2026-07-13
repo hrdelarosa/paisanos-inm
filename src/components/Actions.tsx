@@ -1,16 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  EllipsisVerticalIcon,
-  InfoIcon,
-  Trash2Icon,
-  UserRoundPenIcon,
-} from 'lucide-react'
-import { User } from '@/src/modules/login/types/user.types'
+import { EllipsisVerticalIcon, Trash2Icon } from 'lucide-react'
 
 import { Button } from '@/src/components/ui/button'
-import { SpinnerCustom } from '@/src/components/ui/spinner'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,12 +26,11 @@ import {
 } from '@/src/components/ui/alert-dialog'
 
 interface Props {
-  user?: User
   canDeleted?: boolean
   children?: React.ReactNode
 }
 
-export default function Actions({ user, canDeleted = false, children }: Props) {
+export default function Actions({ canDeleted = false, children }: Props) {
   const [alertOpen, setAlertOpen] = useState(false)
 
   const removeUserHandler = () => {
@@ -57,6 +49,7 @@ export default function Actions({ user, canDeleted = false, children }: Props) {
           nativeButton
           render={
             <Button variant="outline" size="icon-sm">
+              <span className="sr-only">Abrir acciones</span>
               <EllipsisVerticalIcon />
             </Button>
           }
@@ -89,10 +82,10 @@ export default function Actions({ user, canDeleted = false, children }: Props) {
               <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
                 <Trash2Icon />
               </AlertDialogMedia>
-              <AlertDialogTitle>Eliminar usuario?</AlertDialogTitle>
+              <AlertDialogTitle>¿Eliminar registro?</AlertDialogTitle>
               <AlertDialogDescription>
                 Esta acción no se puede deshacer. Esto eliminará permanentemente
-                a el usuario.
+                el registro.
               </AlertDialogDescription>
             </AlertDialogHeader>
 

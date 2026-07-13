@@ -17,6 +17,7 @@ interface Props<T> {
     render: (item: T) => React.ReactNode
   }>
   isLoading?: boolean
+  errorMessage?: string
   emptyMessage?: string
   getRowKey: (item: T) => string | number
   actions?: {
@@ -29,6 +30,7 @@ export default function DataTable<T>({
   items,
   columns,
   isLoading = false,
+  errorMessage,
   emptyMessage,
   getRowKey,
   actions,
@@ -38,14 +40,23 @@ export default function DataTable<T>({
   return (
     <>
       {isLoading ? (
-        <div aria-busy="true" aria-live="polite">
+        <div aria-busy="true" aria-live="polite" className="grid gap-2">
           <span className="sr-only">Cargando registros</span>
-          <Skeleton className="h-36 w-full" />
+          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-12 w-full" />
+        </div>
+      ) : errorMessage ? (
+        <div
+          className="rounded-4xl border p-6 text-center text-sm text-destructive"
+          role="alert"
+        >
+          {errorMessage}
         </div>
       ) : (
         <div className="overflow-hidden rounded-4xl border">
-          <Table className="bg-white">
-            <TableHeader className="bg-gray-50">
+          <Table className="bg-card">
+            <TableHeader className="bg-muted">
               <TableRow>
                 {columns.map((column) => (
                   <TableHead key={column.key} className={column.className}>
