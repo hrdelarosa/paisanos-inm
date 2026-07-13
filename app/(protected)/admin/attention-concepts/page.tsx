@@ -1,7 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import DataTable from '@/src/components/DataTable'
 import { Badge } from '@/src/components/ui/badge'
+import { Button } from '@/src/components/ui/button'
 import { useAttentionTypes } from '@/src/modules/admin/attention-types/hooks/useAttentionTypes'
 
 export default function AttentionConcepts() {
@@ -47,11 +49,22 @@ export default function AttentionConcepts() {
             className: 'w-27',
             render: (type) => (
               <Badge variant={type.isActive ? 'default' : 'secondary'}>
-                {type.isActive ? 'Inactivo' : 'Inactivo'}
+                {type.isActive ? 'Activo' : 'Inactivo'}
               </Badge>
             ),
           },
         ]}
+        actions={{
+          className: 'w-24',
+          render: (type) => (
+            <Button
+              variant="outline"
+              render={<Link href={`/admin/attention-concepts/${type.id}`} />}
+            >
+              Ver
+            </Button>
+          ),
+        }}
       />
     </>
   )
