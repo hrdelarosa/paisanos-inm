@@ -38,12 +38,9 @@ export default function DataTable<T>({
   return (
     <>
       {isLoading ? (
-        // <Skeleton className="size-full" />
         <div aria-busy="true" aria-live="polite">
           <span className="sr-only">Cargando registros</span>
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-36 w-full" />
         </div>
       ) : (
         <div className="overflow-hidden rounded-4xl border">
