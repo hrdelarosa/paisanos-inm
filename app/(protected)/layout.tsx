@@ -21,7 +21,7 @@ export default async function ProtectedLayout({
 }) {
   const session = await auth.api.getSession({ headers: await headers() })
 
-  if (!session || session.user.role !== 'admin') redirect('/login')
+  if (!session) redirect('/login')
 
   return (
     <SessionProvider user={session.user}>
