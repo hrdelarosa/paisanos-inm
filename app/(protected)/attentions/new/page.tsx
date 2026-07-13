@@ -12,6 +12,7 @@ import { useOperatives } from '@/src/modules/admin/operatives/hooks/useOperative
 import { useAttentionReports } from '@/src/modules/attentions/hooks/useAttentionReports'
 import { useValidatedForm } from '@/src/modules/login/hooks/useValidatedForm'
 import { createAttentionReportFormSchema, CreateAttentionReportFormInput } from '@/src/modules/attentions/schema/attentions.schema'
+import { toDateOnlyInputValue } from '@/src/lib/dateOnly'
 
 export default function NewAttentionReport() {
   const { attentionTypesQuery } = useAttentionTypes()
@@ -23,7 +24,7 @@ export default function NewAttentionReport() {
     defaultValues: {
       operativeId: '',
       moduleId: '',
-      reportDate: new Date().toISOString().slice(0, 10),
+      reportDate: toDateOnlyInputValue(),
       notes: '',
       items: {},
     },
@@ -44,7 +45,7 @@ export default function NewAttentionReport() {
     },
   })
 
-  const attentionTypes = attentionTypesQuery.data || []
+  const attentionTypes = attentionTypesQuery.data?.filter((type) => type.isActive) || []
   const modules = modulesQuery.data?.filter((module) => module.isActive) || []
   const operatives = operativesQuery.data?.filter((operative) => operative.isActive) || []
   const operativeId = watch('operativeId')

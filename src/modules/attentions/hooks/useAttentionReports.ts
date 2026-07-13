@@ -5,11 +5,11 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import {
   createAttentionReportAction,
-  CreateAttentionReportInput,
   getAttentionReportAction,
   listAttentionReportsAction,
   markAttentionReportReviewedAction,
 } from '../actions/attentions.actions'
+import type { CreateAttentionReportActionInput } from '../schema/attentions.schema'
 
 export const ATTENTION_REPORTS_QUERY_KEY = ['attentions', 'reports']
 
@@ -23,7 +23,7 @@ export function useAttentionReports() {
   })
 
   const createReport = useMutation({
-    mutationFn: (input: CreateAttentionReportInput) =>
+    mutationFn: (input: CreateAttentionReportActionInput) =>
       createAttentionReportAction(input),
     onSuccess: (result) => {
       if (!result.success) {
