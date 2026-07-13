@@ -22,8 +22,14 @@ export function useOperatives() {
   const createOperative = useMutation({
     mutationFn: (input: CreateOperativeInput) =>
       createOperativeAction({ input }),
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: OPERATIVES_QUERY_KEY })
+
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+
       toast.success('Operativo creado correctamente')
     },
     onError: (error) => toast.error(error.message),
@@ -31,8 +37,14 @@ export function useOperatives() {
 
   const toggleOperativeStatus = useMutation({
     mutationFn: toggleOperativeStatusAction,
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: OPERATIVES_QUERY_KEY })
+
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+
       toast.success('Estado del operativo actualizado')
     },
     onError: (error) => toast.error(error.message),

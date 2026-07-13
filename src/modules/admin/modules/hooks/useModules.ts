@@ -28,8 +28,14 @@ export function useModules(id?: string) {
 
   const createModule = useMutation({
     mutationFn: (input: CreateModuleInput) => createModuleAction({ input }),
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: MODULES_QUERY_KEY })
+
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+
       toast.success('Módulo creado correctamente')
     },
     onError: (error) => toast.error(error.message),
@@ -37,8 +43,14 @@ export function useModules(id?: string) {
 
   const toggleModuleStatus = useMutation({
     mutationFn: toggleModuleStatusAction,
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: MODULES_QUERY_KEY })
+
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
+
       toast.success('Estado del módulo actualizado')
     },
     onError: (error) => toast.error(error.message),
